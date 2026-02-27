@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krishna — Cinematic Visual Storyteller</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --charcoal: #111111;
+      --white: #FFFFFF;
+      --ivory: #F8F4EE;
+      --gold: #D4A373;
+      --gold-light: #e8c49a;
+      --gold-dark: #b8895a;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(212, 163, 115, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+    }
+
+    body:hover .cursor,
+    body:hover .cursor-ring {
+      opacity: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 60px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+      transition: background 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 60px;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    /* =================== HERO =================== */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 40%, #0d0d0d 100%);
+      z-index: 0;
+    }
+
+    /* Cinematic film grain overlay */
+    .hero-video-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      animation: grain 0.5s steps(2) infinite;
+      z-index: 1;
+    }
+
+    @keyframes grain {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      10% {
+        transform: translate(-2%, -3%);
+      }
+
+      20% {
+        transform: translate(3%, 2%);
+      }
+
+      30% {
+        transform: translate(-1%, 4%);
+      }
+
+      40% {
+        transform: translate(2%, -1%);
+      }
+
+      50% {
+        transform: translate(-3%, 1%);
+      }
+
+      60% {
+        transform: translate(1%, 3%);
+      }
+
+      70% {
+        transform: translate(-2%, 2%);
+      }
+
+      80% {
+        transform: translate(3%, -3%);
+      }
+
+      90% {
+        transform: translate(-1%, -2%);
+      }
+    }
+
+    /* Cinematic bars */
+    .cin-bar-top,
+    .cin-bar-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: var(--black);
+      z-index: 3;
+    }
+
+    .cin-bar-top {
+      top: 0;
+    }
+
+    .cin-bar-bottom {
+      bottom: 0;
+    }
+
+    /* Animated background circles */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      animation: drift 8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .hero-orb-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--gold);
+      top: -100px;
+      right: -100px;
+      animation-delay: 0s;
+    }
+
+    .hero-orb-2 {
+      width: 300px;
+      height: 300px;
+      background: #8B6914;
+      bottom: 100px;
+      left: 100px;
+      animation-delay: -4s;
+    }
+
+    @keyframes drift {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-30px) scale(1.05);
+      }
+    }
+.main-headings{
+  color:#D4A373
+}
+
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.7) 100%);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      max-width: 900px;
+      padding: 0 20px;
+      opacity: 0;
+      animation: heroIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    @keyframes heroIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-pre {
+      font-size: 0.65rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+    }
+
+    .blur-text {
+      display: inline-block;
+      filter: blur(12px);
+      opacity: 0;
+      animation: blurReveal 1.8s ease forwards;
+      font-size: 63px;
+      font-family: system-ui;
+    }
+
+    @keyframes blurReveal {
+      0% {
+        filter: blur(12px);
+        opacity: 0;
+      }
+
+      60% {
+        filter: blur(6px);
+        opacity: 0.7;
+      }
+
+      100% {
+        filter: blur(0);
+        opacity: 1;
+      }
+    }
+
+
+
+    .hero-titles {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 28px;
+      font-style: none;
+
+
+    }
+
+    @media (max-width: 768px) {
+      font-family: 'Playfair Display',
+      serif;
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 28px;
+      font-style: none;
+    }
+
+
+
+
+    .hero-sub {
+      font-size: 0.65rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 52px;
+      font-weight: 400;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 16px 42px;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: none;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-primary:hover::before {
+      transform: translateX(0);
+    }
+
+    .btn-primary span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover span {
+      color: var(--black);
+    }
+
+    .btn-outline {
+      padding: 16px 42px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: none;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Scroll indicator */
+    .scroll-line {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s 2s forwards;
+    }
+
+    .scroll-line span {
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .scroll-line-bar {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scaleY(1);
+        transform-origin: top;
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleY(0.5);
+        transform-origin: top;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* =================== SECTIONS BASE =================== */
+    section {
+      padding: 120px 60px;
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--white);
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 28px 0;
+    }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .reveal-delay-5 {
+      transition-delay: 0.5s;
+    }
+
+    /* =================== ABOUT =================== */
+    #about {
+      background: var(--charcoal);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 3/4;
+    }
+
+    .about-visual-inner {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1410 0%, #2a200d 50%, #1a1410 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-visual-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 70%, rgba(212, 163, 115, 0.2) 0%, transparent 60%);
+    }
+
+    .about-visual-inner::after {
+      content: '✦';
+      position: absolute;
+      font-size: 8rem;
+      color: rgba(212, 163, 115, 0.05);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Camera shutter decoration */
+    .about-shutter {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(212, 163, 115, 0.3);
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+    }
+
+    .about-shutter::before {
+      content: '';
+      position: absolute;
+      inset: 15px;
+      border: 1px solid rgba(212, 163, 115, 0.15);
+      border-radius: 50%;
+    }
+
+    .about-shutter-blade {
+      position: absolute;
+      width: 60%;
+      height: 1px;
+      background: rgba(212, 163, 115, 0.3);
+      top: 50%;
+      left: 50%;
+      transform-origin: left center;
+    }
+
+    .about-shutter-blade:nth-child(1) {
+      transform: rotate(0deg) translateY(-50%);
+    }
+
+    .about-shutter-blade:nth-child(2) {
+      transform: rotate(60deg) translateY(-50%);
+    }
+
+    .about-shutter-blade:nth-child(3) {
+      transform: rotate(120deg) translateY(-50%);
+    }
+
+    @keyframes rotate {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .about-frame-accent {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      border-top: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+
+    .about-frame-accent-bl {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 80px;
+      height: 80px;
+      border-bottom: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+
+    .about-years {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--gold);
+      color: var(--black);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .about-years-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      line-height: 1;
+      display: block;
+    }
+
+    .about-years-text {
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 20px;
+    }
+
+    .about-text p strong {
+      color: var(--ivory);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 50px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 6px;
+    }
+
+    /* =================== SERVICES =================== */
+    #services {
+      background: var(--black);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 70px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .service-card {
+      background: var(--black);
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+      cursor: none;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(212, 163, 115, 0.07) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .service-card:hover {
+      background: #0d0d0d;
+      transform: translateY(-4px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(212, 163, 115, 0.08);
+      line-height: 1;
+      margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+
+    .service-card:hover .service-num {
+      color: rgba(212, 163, 115, 0.2);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .service-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 14px;
+      transition: color 0.3s;
+    }
+
+    .service-card:hover .service-name {
+      color: var(--gold);
+    }
+
+    .service-desc {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .service-arrow {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.4s;
+    }
+
+    .service-card:hover .service-arrow {
+      opacity: 1;
+      transform: translateX(0);
+      border-color: var(--gold);
+    }
+
+    .service-arrow svg {
+      width: 14px;
+      stroke: var(--gold);
+    }
+
+    /* =================== PORTFOLIO =================== */
+    #portfolio {
+      background: var(--charcoal);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+      padding-bottom: 0;
+    }
+
+    .filter-tab {
+      padding: 14px 28px;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      background: none;
+      border: none;
+      cursor: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .filter-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .filter-tab.active {
+      color: var(--gold);
+    }
+
+    .filter-tab.active::after,
+    .filter-tab:hover::after {
+      transform: scaleX(1);
+    }
+
+    .filter-tab:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      cursor: none;
+      background: #0d0d0d;
+    }
+
+    .portfolio-item.hidden {
+      display: none;
+    }
+
+    .portfolio-item.wide {
+      grid-column: span 2;
+    }
+
+    .portfolio-thumb {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Cinematic gradient thumbnails */
+    .portfolio-item:nth-child(1) .portfolio-thumb {
+      background: linear-gradient(135deg, #1a0a05 0%, #3d1f0a 50%, #1a0a05 100%);
+    }
+
+    .portfolio-item:nth-child(2) .portfolio-thumb {
+      background: linear-gradient(135deg, #050a1a 0%, #0a1f3d 50%, #050a1a 100%);
+    }
+
+    .portfolio-item:nth-child(3) .portfolio-thumb {
+      background: linear-gradient(135deg, #0a1a05 0%, #1f3d0a 50%, #0a1a05 100%);
+    }
+
+    .portfolio-item:nth-child(4) .portfolio-thumb {
+      background: linear-gradient(135deg, #1a051a 0%, #3d0a3d 50%, #1a051a 100%);
+    }
+
+    .portfolio-item:nth-child(5) .portfolio-thumb {
+      background: linear-gradient(135deg, #1a1005 0%, #3d2a0a 50%, #1a1005 100%);
+    }
+
+    .portfolio-item:nth-child(6) .portfolio-thumb {
+      background: linear-gradient(135deg, #051a1a 0%, #0a3d3d 50%, #051a1a 100%);
+    }
+
+    .portfolio-item:nth-child(7) .portfolio-thumb {
+      background: linear-gradient(135deg, #1a0508 0%, #3d0a15 50%, #1a0508 100%);
+    }
+
+    .portfolio-item:nth-child(8) .portfolio-thumb {
+      background: linear-gradient(135deg, #0d1a05 0%, #1a3d0a 50%, #0d1a05 100%);
+    }
+
+    .portfolio-thumb-icon {
+      font-size: 3rem;
+      opacity: 0.06;
+      color: var(--gold);
+      user-select: none;
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(4px);
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    .play-btn {
+      width: 64px;
+      height: 64px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.8);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .portfolio-item:hover .play-btn {
+      transform: scale(1);
+    }
+
+    .play-btn::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 16px solid var(--gold);
+      margin-left: 4px;
+    }
+
+    .portfolio-meta {
+      text-align: center;
+      transform: translateY(10px);
+      transition: transform 0.4s;
+    }
+
+    .portfolio-item:hover .portfolio-meta {
+      transform: translateY(0);
+    }
+
+    .portfolio-cat {
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .portfolio-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(20px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 900px;
+      width: 90%;
+      position: relative;
+    }
+
+    .lightbox-video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-video-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .lightbox-video-placeholder .big-play {
+      font-size: 4rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: none;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.3s;
+    }
+
+    .lightbox-close:hover {
+      color: var(--gold);
+    }
+
+    .lightbox-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-top: 24px;
+    }
+
+    /* =================== TESTIMONIALS =================== */
+    #testimonials {
+      background: var(--black);
+      text-align: center;
+    }
+
+    .testimonials-slider {
+      position: relative;
+      max-width: 800px;
+      margin: 70px auto 0;
+      overflow: hidden;
+    }
+
+    .testimonial-slide {
+      display: none;
+      animation: fadeSlide 0.7s ease;
+    }
+
+    .testimonial-slide.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .testimonial-quote {
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 30px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--ivory);
+      margin-bottom: 40px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--black);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .testimonial-info {
+      text-align: left;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--white);
+      letter-spacing: 1px;
+    }
+
+    .testimonial-role {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 3px;
+    }
+
+    .testimonial-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 50px;
+    }
+
+    .t-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      background: none;
+      color: var(--white);
+      cursor: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .t-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .t-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .t-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: none;
+      transition: all 0.3s;
+    }
+
+    .t-dot.active {
+      background: var(--gold);
+      width: 24px;
+      border-radius: 3px;
+    }
+
+    /* =================== CONTACT =================== */
+    #contact {
+      background: var(--charcoal);
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .contact-info {
+      padding-top: 10px;
+    }
+
+    .contact-info p {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .contact-detail-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(212, 163, 115, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .contact-detail-text {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .contact-detail-label {
+      color: var(--gold);
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      margin-top: 30px;
+    }
+
+    .whatsapp-btn:hover {
+      background: #128C7E;
+    }
+
+    .whatsapp-btn svg {
+      width: 20px;
+    }
+
+    /* Form */
+    .contact-form {}
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 10px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      padding: 14px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .form-control:focus {
+      border-color: var(--gold);
+      background: rgba(212, 163, 115, 0.03);
+    }
+
+    select.form-control {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23D4A373' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      cursor: none;
+    }
+
+    select.form-control option {
+      background: #1a1a1a;
+    }
+
+    textarea.form-control {
+      resize: none;
+      min-height: 120px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 18px;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .form-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .form-submit:hover::before {
+      transform: translateX(0);
+    }
+
+    .form-submit span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =================== FOOTER =================== */
+    footer {
+      background: var(--black);
+      padding: 60px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+
+    .footer-logo span {
+      color: var(--gold);
+    }
+
+    .footer-tagline {
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.25);
+      margin-top: 6px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-link {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.5);
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 1px;
+    }
+
+    .footer-copy span {
+      color: var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.25);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    /* =================== RESPONSIVE =================== */
+    @media (max-width: 1024px) {
+      section {
+        padding: 80px 40px;
+      }
+
+      nav {
+        padding: 20px 40px;
+      }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      #contact {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .portfolio-item.wide {
+        grid-column: span 1;
+      }
+
+      footer {
+        padding: 50px 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 70px 24px;
+      }
+
+      nav {
+        padding: 20px 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .about-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      footer {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">K<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#testimonials">Stories</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-video-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+    </div>
+    <div class="cin-bar-top"></div>
+    <div class="cin-bar-bottom"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="blur-text">HELLO</span>
+      </h1>
+      <p class="hero-titles">We Turn Moments Into Cinematic Stories</p>
+      <p class="hero-sub">Wedding &nbsp;·&nbsp; Pre-Wedding &nbsp;·&nbsp; Commercial &nbsp;·&nbsp; Corporate
+        &nbsp;·&nbsp; Social Media</p>
+        <p style="color:red">“This portfolio is a work in progress,More stories and cinematic projects coming soon.”</p>
+      <br>
+      <br>
+        <div class="hero-btns">
+        <a href="#portfolio" class="btn-primary"><span>Watch Showreel</span></a>
+        <a href="#contact" class="btn-outline">Hire Krishna</a>
+      </div>
+    </div>
+
+    <div class="scroll-line">
+      <span>Scroll</span>
+      <div class="scroll-line-bar"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-visual-inner">
+        <div class="about-shutter">
+          <div class="about-shutter-blade"></div>
+          <div class="about-shutter-blade"></div>
+          <div class="about-shutter-blade"></div>
+        </div>
+        <div class="about-frame-accent"></div>
+        <div class="about-frame-accent-bl"></div>
+      </div>
+      <div class="about-years">
+        <span class="about-years-num">3+</span>
+        <span class="about-years-text">Years of<br>Visual Stories</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="section-label reveal">About Krishna Visuals</p>
+      <h2 class="section-title reveal reveal-delay-1">The Story Behind <br> the Lens</h2>
+      <div class="divider reveal reveal-delay-2"></div>
+      <p class="reveal reveal-delay-2">
+      
+          At Krishna Visuals, storytelling is not just a craft — it is a passion. Founded by Krishna, a dedicated visual artist, the brand is built on the belief that every moment holds a story worth preserving.
+      </p>
+      <p class="reveal reveal-delay-3">
+        Driven by a deep love for light, rhythm, and authentic emotion, I transform ordinary moments into cinematic experiences. My approach goes beyond simply editing footage — I carefully shape narratives, compose emotions, and create visuals that leave a lasting impact.
+
+From intimate wedding films and dynamic commercial projects to powerful corporate storytelling, I create films that connect, inspire, and engage. Every frame is thoughtfully crafted, blending technical precision with artistic vision.
+      </p>
+
+
+
+      <p class="reveal reveal-delay-3">
+        <span class="main-headings"> 
+        For me, every project is more than just a video — it is a journey.
+  <br>Every client is not just a customer — but the hero of their own story.
+     </span> </p>
+      <div class="about-stats">
+        <div class="reveal reveal-delay-2">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Films Crafted</div>
+        </div>
+        <div class="reveal reveal-delay-3">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+       
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div style="text-align:center; margin-bottom: 0;">
+      <p class="section-label reveal" style="justify-content:center; display:flex;">What We Create</p>
+      <h2 class="section-title reveal reveal-delay-1" style="max-width:600px; margin:0 auto 0;">Stories Told Across
+        Every Medium</h2>
+    </div>
+
+    <div class="services-grid" style="margin-top:60px;">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="20" r="8" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M8 40C8 32 15 28 24 28C33 28 40 32 40 40" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M32 12L40 8V24L32 20" stroke="#D4A373" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div class="service-name">Wedding Films</div>
+        <div class="service-desc">Timeless, emotional storytelling of your most important day — captured with cinematic
+          precision and heartfelt artistry.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">02</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="16" width="32" height="20" rx="2" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M16 16V12C16 10 18 8 24 8C30 8 32 10 32 12V16" stroke="#D4A373" stroke-width="1.5" />
+            <circle cx="24" cy="26" r="5" stroke="#D4A373" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div class="service-name">Pre-Wedding Cinematics</div>
+        <div class="service-desc">Romance captured in golden light. We create dreamy, fashion-forward films that tell
+          your love story beautifully.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">03</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="36" height="28" rx="2" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M20 20L30 24L20 28V20Z" stroke="#D4A373" stroke-width="1.5" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="service-name">Commercial Advertisements</div>
+        <div class="service-desc">Brand films that sell feelings, not just products. Conversion-driven storytelling with
+          premium visual execution.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="36" height="26" rx="2" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M14 14V10M34 14V10M6 22H42" stroke="#D4A373" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div class="service-name">Corporate Edits</div>
+        <div class="service-desc">Professional brand films, company profiles, and office tours that elevate your
+          corporate identity with confidence.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">05</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 36L16 24L24 30L32 18L40 36" stroke="#D4A373" stroke-width="1.5" stroke-linejoin="round" />
+            <rect x="6" y="8" width="36" height="32" rx="2" stroke="#D4A373" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div class="service-name">Industrial Project Videos</div>
+        <div class="service-desc">Large-scale industrial and infrastructure documentation filmed with cinematic flair
+          and technical expertise.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">06</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="6" width="20" height="36" rx="3" stroke="#D4A373" stroke-width="1.5" />
+            <circle cx="24" cy="36" r="2" stroke="#D4A373" stroke-width="1.5" />
+            <path d="M19 10H29" stroke="#D4A373" stroke-width="1.5" />
+          </svg>
+        </div>
+        <div class="service-name">Social Media Reels</div>
+        <div class="service-desc">Thumb-stopping, scroll-halting content crafted for Instagram, YouTube Shorts & beyond
+          — viral by design.</div>
+        <div class="service-arrow">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7H13M8 2L13 7L8 12" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <p class="section-label reveal">Visual Portfolio</p>
+    <h2 class="section-title reveal reveal-delay-1">Stories We've Told</h2>
+
+    <div class="filter-tabs reveal reveal-delay-2">
+      <button class="filter-tab active" data-filter="all">All Work</button>
+      <button class="filter-tab" data-filter="wedding">Wedding</button>
+      <button class="filter-tab" data-filter="prewedding">Pre-Wedding</button>
+      <button class="filter-tab" data-filter="commercial">Commercial</button>
+      <button class="filter-tab" data-filter="corporate">Corporate</button>
+      <button class="filter-tab" data-filter="industrial">Industrial</button>
+      <button class="filter-tab" data-filter="social">Social Media</button>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="portfolio-item wide reveal" data-cat="wedding" onclick="openLightbox('Rohan & Priya — Wedding Film')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">♥</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Wedding Film</span>
+            <div class="portfolio-name">Rohan & Priya — A Love Story</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-1" data-cat="prewedding"
+        onclick="openLightbox('Meera & Arjun — Pre-Wedding')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">✦</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Pre-Wedding</span>
+            <div class="portfolio-name">Meera & Arjun</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-1" data-cat="commercial"
+        onclick="openLightbox('Luxury Brand TVC')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">▶</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Commercial</span>
+            <div class="portfolio-name">Luxury Brand TVC</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-2" data-cat="corporate"
+        onclick="openLightbox('Corporate Profile Film')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">◆</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Corporate</span>
+            <div class="portfolio-name">TechCorp Profile Film</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item wide reveal reveal-delay-2" data-cat="wedding"
+        onclick="openLightbox('Anjali & Vikram — Destination Wedding')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">♥</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Wedding Film</span>
+            <div class="portfolio-name">Anjali & Vikram — Destination Wedding</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-3" data-cat="industrial"
+        onclick="openLightbox('Infrastructure Documentary')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">⚙</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Industrial</span>
+            <div class="portfolio-name">Infrastructure Doc</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-3" data-cat="social"
+        onclick="openLightbox('Social Media Reel — Fashion')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">★</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Social Media</span>
+            <div class="portfolio-name">Fashion Reel</div>
+          </div>
+        </div>
+      </div>
+      <div class="portfolio-item reveal reveal-delay-4" data-cat="prewedding"
+        onclick="openLightbox('Neha & Rahul — Udaipur')">
+        <div class="portfolio-thumb"><span class="portfolio-thumb-icon">✦</span></div>
+        <div class="portfolio-overlay">
+          <div class="play-btn"></div>
+          <div class="portfolio-meta">
+            <span class="portfolio-cat">Pre-Wedding</span>
+            <div class="portfolio-name">Neha & Rahul — Udaipur</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <p class="section-label reveal" style="display:flex; justify-content:center;">Heartfelt Words</p>
+    <h2 class="section-title reveal reveal-delay-1">What Our Clients Say</h2>
+
+    <div class="testimonials-slider reveal reveal-delay-2">
+      <div class="testimonial-slide active">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Krishna didn't just film our wedding — he captured the version of our day we'll want
+          to revisit forever. Every frame feels like a painting, every cut feels like a heartbeat.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">R</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Rohan & Priya Mehta</div>
+            <div class="testimonial-role">Wedding Couple — Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">The pre-wedding film Krishna made for us went viral. But more importantly, it made
+          us cry every time we watch it. That's the mark of a true artist.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Arjun & Meera Kapoor</div>
+            <div class="testimonial-role">Pre-Wedding — Jaipur</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Our product launch video created by Krishna generated more engagement than anything
+          we've ever released. He understands brand storytelling at a completely different level.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Siddharth Jain</div>
+            <div class="testimonial-role">CEO, Luxe Brands India</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Working with Krishna felt like working with a director, not just an editor. He
+          elevated our corporate film into something we're genuinely proud to share with the world.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">P</div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Preethi Nair</div>
+            <div class="testimonial-role">Marketing Director, TechCorp</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-nav">
+        <button class="t-btn" onclick="prevTest()">←</button>
+        <div class="t-dots" id="dots"></div>
+        <button class="t-btn" onclick="nextTest()">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-info">
+      <p class="section-label reveal">Get In Touch</p>
+      <h2 class="section-title reveal reveal-delay-1">Let's Create<br><em>Something Memorable</em></h2>
+      <div class="divider reveal reveal-delay-2"></div>
+      <p class="reveal reveal-delay-2">Every great film starts with a conversation. Tell me about your story — and I'll
+        tell you how we'll make it unforgettable.</p>
+
+      <div class="contact-detail reveal reveal-delay-2">
+        <div class="contact-detail-icon">✉</div>
+        <div class="contact-detail-text">
+          <span class="contact-detail-label">Email</span>
+          ktailor391@gmail.com
+        </div>
+      </div>
+      <div class="contact-detail reveal reveal-delay-3">
+        <div class="contact-detail-icon">☎</div>
+        <div class="contact-detail-text">
+          <span class="contact-detail-label">Phone</span>
+          +91 70895 49172
+        </div>
+      </div>
+      <div class="contact-detail reveal reveal-delay-4">
+        <div class="contact-detail-icon">✦</div>
+        <div class="contact-detail-text">
+          <span class="contact-detail-label">Location</span>
+          Indore Madhya Pradesh, India
+        </div>
+      </div>
+
+      <a href="https://wa.me/7089549172" class="whatsapp-btn reveal reveal-delay-4">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+            fill="white" />
+        </svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2">
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="name" class="form-control" placeholder="Rohan Mehta" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="rohan@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label>Project Type</label>
+            <select id="project" class="form-control">
+              <option value="">Select a service</option>
+              <option>Wedding Film</option>
+              <option>Pre-Wedding Cinematics</option>
+              <option>Commercial Advertisement</option>
+              <option>Corporate / Office Film</option>
+              <option>Industrial Project</option>
+              <option>Social Media Reels</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea id="message" class="form-control"
+            placeholder="Tell me about your project, date, location, and vision..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">
+          <span>Send Your Story →</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <a href="#" class="footer-logo">Krishna<span>.</span></a>
+        <div class="footer-tagline">Cinematic Visual Storyteller</div>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" title="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+          </svg>
+        </a>
+        <a href="#" class="social-link" title="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+        <a href="#" class="social-link" title="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>Krishna Visuals</span>. All rights reserved. Crafted with love & light.
+      </div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#contact">Hire Me</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <div class="lightbox-video">
+        <div class="lightbox-video-placeholder">
+          <span class="big-play">▶</span>
+          <p style="font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;">Your Showreel Would Play Here</p>
+        </div>
+      </div>
+      <div class="lightbox-title" id="lightbox-title"></div>
+    </div>
+  </div>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Portfolio filter
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+        portfolioItems.forEach(item => {
+          if (filter === 'all' || item.dataset.cat === filter) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Testimonials
+    let currentTest = 0;
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dotsContainer = document.getElementById('dots');
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('t-dot');
+      if (i === 0) dot.classList.add('active');
+      dot.onclick = () => goToTest(i);
+      dotsContainer.appendChild(dot);
+    });
+
+    function goToTest(n) {
+      slides[currentTest].classList.remove('active');
+      document.querySelectorAll('.t-dot')[currentTest].classList.remove('active');
+      currentTest = (n + slides.length) % slides.length;
+      slides[currentTest].classList.add('active');
+      document.querySelectorAll('.t-dot')[currentTest].classList.add('active');
+    }
+    function nextTest() { goToTest(currentTest + 1); }
+    function prevTest() { goToTest(currentTest - 1); }
+
+    setInterval(nextTest, 5000);
+
+    // Lightbox
+    function openLightbox(title) {
+      document.getElementById('lightbox').classList.add('open');
+      document.getElementById('lightbox-title').textContent = title;
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') }); });
+
+    // Form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit span');
+      btn.textContent = 'Message Sent ✓';
+      setTimeout(() => btn.textContent = 'Send Your Story →', 3000);
+    }
+
+    // Number counter animation
+    const counters = document.querySelectorAll('.stat-num');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = el.textContent;
+          const num = parseInt(target);
+          const suffix = target.replace(/[0-9]/g, '');
+          let count = 0;
+          const step = Math.ceil(num / 60);
+          const timer = setInterval(() => {
+            count = Math.min(count + step, num);
+            el.textContent = count + suffix;
+            if (count >= num) clearInterval(timer);
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+  </script>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let phone = document.getElementById("phone").value;
+      let project = document.getElementById("project").value;
+      let message = document.getElementById("message").value;
+
+      let whatsappNumber = "917089549172"; // 91 + number (no + sign)
+
+      let whatsappMessage =
+        `New Enquiry from Website:
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Project Type: ${project}
+Message: ${message}`;
+
+      let url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(whatsappMessage);
+
+      window.open(url, "_blank");
+    }
+  </script>
+
+  <script>
+    const text = "HELLO";
+    const typingElement = document.getElementById("typing");
+
+    let index = 0;
+
+    function typeEffect() {
+      if (index < text.length) {
+        typingElement.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 200);
+      } else {
+        // After full word typed → remove blur smoothly
+        setTimeout(() => {
+          typingElement.classList.add("clear");
+        }, 300);
+
+        // Pause then reset
+        setTimeout(() => {
+          typingElement.classList.remove("clear");
+          typingElement.innerHTML = "";
+          index = 0;
+          typeEffect();
+        }, 2500);
+      }
+    }
+
+    typeEffect();
+  </script>
+</body>
+
+</html>
